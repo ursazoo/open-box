@@ -6,7 +6,7 @@
       <div class="top">
         <!-- <img class="logo" src="../../assets/logo.png" /> -->
         <div class="title">{{ state.data?.title }}</div>
-        <div class="controls flex-h-center">
+        <!-- <div class="controls flex-h-center">
           <div class="item flex-h-center">
             <span class="label">音效:</span>
             <el-switch
@@ -21,7 +21,7 @@
               style="--el-switch-on-color: #5fb878"
             />
           </div>
-        </div>
+        </div> -->
       </div>
       <!-- Header End -->
 
@@ -45,20 +45,19 @@
               </div>
               <img :src="item.image" />
               <div class="infos">
-                <div class="arms">{{ item.armsName }}</div>
-                <div class="skins">{{ item.skinsName }}</div>
+                <div class="arms">{{ item.mainName }}</div>
+                <div class="skins">{{ item.subName }}</div>
               </div>
             </div>
           </template>
         </div>
         <!-- 抽奖结果 -->
-        <div
+        <!-- <div
           class="lucky-draw-results flex-h-center"
           :class="{ visible: state.luckyDrawResultsVisible }"
         >
           <div class="infos flex-h-center">
             <div class="a-item">
-              <div>{{ state.luckyDrawResults?.wearDegree }}</div>
               <div>
                 <div>CHANCE</div>
                 <div>{{ state.luckyDrawResults?.allProbability }}%</div>
@@ -73,113 +72,7 @@
               <div class="price">$ {{ state.luckyDrawResults?.price }}</div>
             </div>
           </div>
-        </div>
-      </div>
-      <!-- Lucky-draw End -->
-
-
-      <!-- Lucky-draw Start -->
-      <div class="lucky-draw" ref="luckyDrawRefSecond">
-        <!-- 抽奖标识线 -->
-        <div class="lucky-line"></div>
-        <!-- 抽奖物品容器 -->
-        <div class="lucky-draw-wrap" ref="luckyDrawWrapRefSecond">
-          <template v-for="(item, index) in state.luckyDrawData" :key="index">
-            <div
-              class="lucky-draw-item"
-              :style="{
-                width: state.itemWidth + 'px',
-                background: getBgColor(item.rarityColor),
-              }"
-            >
-              <div class="chance">
-                <div>CHANCE</div>
-                <div>{{ item.allProbability }}%</div>
-              </div>
-              <img :src="item.image" />
-              <div class="infos">
-                <div class="arms">{{ item.armsName }}</div>
-                <div class="skins">{{ item.skinsName }}</div>
-              </div>
-            </div>
-          </template>
-        </div>
-        <!-- 抽奖结果 -->
-        <div
-          class="lucky-draw-results flex-h-center"
-          :class="{ visible: state.luckyDrawResultsVisible }"
-        >
-          <div class="infos flex-h-center">
-            <div class="a-item">
-              <div>{{ state.luckyDrawResults?.wearDegree }}</div>
-              <div>
-                <div>CHANCE</div>
-                <div>{{ state.luckyDrawResults?.allProbability }}%</div>
-              </div>
-            </div>
-            <img :src="state.luckyDrawResults?.image" />
-            <div class="a-item">
-              <div class="armsName">{{ state.luckyDrawResults?.armsName }}</div>
-              <div class="skinsName">
-                {{ state.luckyDrawResults?.skinsName }}
-              </div>
-              <div class="price">$ {{ state.luckyDrawResults?.price }}</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Lucky-draw End -->
-
-
-      <!-- Lucky-draw Start -->
-      <div class="lucky-draw" ref="luckyDrawRefThird">
-        <!-- 抽奖标识线 -->
-        <div class="lucky-line"></div>
-        <!-- 抽奖物品容器 -->
-        <div class="lucky-draw-wrap" ref="luckyDrawWrapRefThird">
-          <template v-for="(item, index) in state.luckyDrawData" :key="index">
-            <div
-              class="lucky-draw-item"
-              :style="{
-                width: state.itemWidth + 'px',
-                background: getBgColor(item.rarityColor),
-              }"
-            >
-              <div class="chance">
-                <div>CHANCE</div>
-                <div>{{ item.allProbability }}%</div>
-              </div>
-              <img :src="item.image" />
-              <div class="infos">
-                <div class="arms">{{ item.armsName }}</div>
-                <div class="skins">{{ item.skinsName }}</div>
-              </div>
-            </div>
-          </template>
-        </div>
-        <!-- 抽奖结果 -->
-        <div
-          class="lucky-draw-results flex-h-center"
-          :class="{ visible: state.luckyDrawResultsVisible }"
-        >
-          <div class="infos flex-h-center">
-            <div class="a-item">
-              <div>{{ state.luckyDrawResults?.wearDegree }}</div>
-              <div>
-                <div>CHANCE</div>
-                <div>{{ state.luckyDrawResults?.allProbability }}%</div>
-              </div>
-            </div>
-            <img :src="state.luckyDrawResults?.image" />
-            <div class="a-item">
-              <div class="armsName">{{ state.luckyDrawResults?.armsName }}</div>
-              <div class="skinsName">
-                {{ state.luckyDrawResults?.skinsName }}
-              </div>
-              <div class="price">$ {{ state.luckyDrawResults?.price }}</div>
-            </div>
-          </div>
-        </div>
+        </div> -->
       </div>
       <!-- Lucky-draw End -->
 
@@ -194,10 +87,10 @@
         >
           &lt;
         </div>
-        <div class="action-button" @click="onSell">
+        <!-- <div class="action-button" @click="onSell">
           Sell ${{ state.luckyDrawResults?.price }}
-        </div>
-        <div class="action-button" @click="onOpenBox">Open again</div>
+        </div> -->
+        <!-- <div class="action-button" @click="onOpenBox">Open again</div> -->
       </div>
       <div v-else class="start-button" @click="onOpenBox">
         {{
@@ -212,21 +105,22 @@
 <script setup lang="ts">
 // -- imports
 import { reactive, onMounted, ref, computed } from 'vue';
+import { useRoute } from 'vue-router';
 import json from './data.json';
 import LuckyDraw from '@/utils/LuckyDraw';
 import Big from 'big.js';
 import { ElMessage } from 'element-plus';
+import axios from 'axios'
 
 // -- interfaces
 interface BoxProps {
   productId: number;
   allProbability: number;
   price: number;
-  armsName: string;
+  mainName: string;
   skinsName: string;
   rarityColor: string;
   image: string;
-  wearDegree: string;
 }
 interface DataProps {
   title: string;
@@ -258,36 +152,27 @@ interface StateProps {
 const luckyDrawRef = ref();
 const luckyDrawWrapRef = ref();
 
-const luckyDrawRefSecond = ref();
-const luckyDrawWrapRefSecond = ref();
-
-const luckyDrawRefThird = ref();
-const luckyDrawWrapRefThird = ref();
-
-
 // -- state
 const state = reactive<StateProps>({
   data: null,
   luckyDrawData: null,
   luckyDrawResults: null,
   luckyDrawResultsVisible: false,
-  openSound: true,
+  openSound: false,
   openAnimation: true,
   itemWidth: 0,
   isAnimating: false,
   balance: 1000,
 });
 
-const isAllSettled = computed(() => {
-  return state.luckyDrawResultsVisible && !state.isAnimating;
-});
+const route = useRoute();
+const boxId = ref(route.query.blindbox_index || 2)
+const duration = ref(route.query.duration || 5)
 
 // -- life circles
 onMounted(() => {
   getData();
   getBoundings(luckyDrawRef);
-  getBoundings(luckyDrawRefSecond);
-  getBoundings(luckyDrawRefThird);
 });
 
 // -- methods
@@ -311,94 +196,76 @@ const getBgColor = (colorStop: string) => {
 };
 
 const getData = () => {
-  state.data = json;
-  state.luckyDrawData = LuckyDraw.getLuckyDrawDataList<BoxProps>({
-    source: json.pmsBoxProductAbbrList,
-    total: 70,
-    visibleCount: 7,
-  });
+
+  axios.get('/api/get_blindbox_content?blindbox_index=2').then((res) => {
+    const {data} = res.data;
+    state.data = data;
+    state.luckyDrawData = LuckyDraw.getLuckyDrawDataList<BoxProps>({
+      source: data.pmsBoxProductAbbrList,
+      total: 70,
+      visibleCount: 7,
+    });
+  }).catch((err) => {
+    console.log(err);
+  })
+
+  // state.data = json;
+  // state.luckyDrawData = LuckyDraw.getLuckyDrawDataList<BoxProps>({
+  //   source: json.pmsBoxProductAbbrList,
+  //   total: 70,
+  //   visibleCount: 7,
+  // });
 };
 
 // -- events
 const onOpenBox = () => {
   if (!state.data || !state.luckyDrawData || state.isAnimating) return;
-  if (state.balance < state.data.price) {
-    ElMessage.info('余额不足');
-    return;
-  }
+  // if (state.balance < state.data.price) {
+  //   ElMessage.info('余额不足');
+  //   return;
+  // }
   state.luckyDrawResultsVisible = false;
   debugger
   state.balance = new Big(state.balance).minus(state.data.price).toNumber();
   state.isAnimating = true;
   // -- 模拟ajax请求，获取中奖物品
-  const len = state.data.pmsBoxProductAbbrList.length;
-  const index = Math.floor(Math.random() * len);
-  const openResults = state.data.pmsBoxProductAbbrList[index];
-  state.luckyDrawResults = openResults;
-  // -- 执行动画
-  LuckyDraw.draw({
-    winningID: openResults.productId,
-    winningIDs: state.luckyDrawData.map((item) => item.productId),
-    wrap: luckyDrawWrapRef.value,
-    itemWidth: state.itemWidth,
-    visibleItemCount: 7,
-    openAnimation: state.openAnimation,
-    openSound: state.openSound,
-    duration: 5,
-    audioUriForStart: '/mp3s/case-one.mp3',
-    audioUriForEnd: '/mp3s/case-coin.mp3',
-    completed: () => {
-      state.isAnimating = false;
-      state.luckyDrawResultsVisible = true;
-    },
-  });
 
-  setTimeout(() => {
-    debugger
+  axios.get(`/api/roll_blindbox?blindbox_index=${boxId.value}`).then((res) => {
+    const {data} = res.data;
+    console.log(data.chosen)
+    // const len = state.data.pmsBoxProductAbbrList.length;
+    // const index = Math.floor(Math.random() * len);
+    const index = state.data.pmsBoxProductAbbrList.findIndex((item) => item.productId === data.chosen)
+    const openResults = state.data.pmsBoxProductAbbrList[index];
+    state.luckyDrawResults = openResults;
+    // -- 执行动画
     LuckyDraw.draw({
       winningID: openResults.productId,
       winningIDs: state.luckyDrawData.map((item) => item.productId),
-      wrap: luckyDrawWrapRefSecond.value,
+      wrap: luckyDrawWrapRef.value,
       itemWidth: state.itemWidth,
       visibleItemCount: 7,
       openAnimation: state.openAnimation,
       openSound: state.openSound,
-      duration: 5,
+      duration: Number(duration.value),
       audioUriForStart: '/mp3s/case-one.mp3',
       audioUriForEnd: '/mp3s/case-coin.mp3',
       completed: () => {
         state.isAnimating = false;
-        state.luckyDrawResultsVisible = true;
+        // state.luckyDrawResultsVisible = true;
       },
     });
-  }, 500);
-
-  setTimeout(() => {
-    LuckyDraw.draw({
-      winningID: openResults.productId,
-      winningIDs: state.luckyDrawData.map((item) => item.productId),
-      wrap: luckyDrawWrapRefThird.value,
-      itemWidth: state.itemWidth,
-      visibleItemCount: 7,
-      openAnimation: state.openAnimation,
-      openSound: state.openSound,
-      duration: 5,
-      audioUriForStart: '/mp3s/case-one.mp3',
-      audioUriForEnd: '/mp3s/case-coin.mp3',
-      completed: () => {
-        state.isAnimating = false;
-        state.luckyDrawResultsVisible = true;
-      },
-    });
-  }, 1000);
+  }).catch((err) => {
+    console.log(err);
+  })
 };
 
-const onSell = () => {
-  state.luckyDrawResultsVisible = false;
-  state.balance = new Big(state.balance)
-    .plus(state.luckyDrawResults?.price || 0)
-    .toNumber();
-};
+// const onSell = () => {
+//   state.luckyDrawResultsVisible = false;
+//   state.balance = new Big(state.balance)
+//     .plus(state.luckyDrawResults?.price || 0)
+//     .toNumber();
+// };
 </script>
 
 <style lang="less" scoped>
@@ -419,6 +286,8 @@ const onSell = () => {
   min-width: 1400px;
   max-width: 1680px;
   margin: 0 auto;
+  background: #333;
+  padding: 40px 0;
 }
 
 .top {
@@ -498,11 +367,14 @@ const onSell = () => {
     display: inline-block;
     height: inherit;
     text-align: center;
-
-    padding: 16px;
+    height: 100%;
     position: relative;
+    padding: 4px 10px;
+    position: relative;
+    border-left: 1px solid rgba(255, 255, 255, .2);
+    border-right: 1px solid rgba(255, 255, 255, .2);
     img {
-      height: 60%;
+      width: 45%;
       position: absolute;
       left: 50%;
       top: 50%;
@@ -516,17 +388,20 @@ const onSell = () => {
       color: #b4b8cd;
     }
     .infos {
+      position: absolute;
+      bottom: 0;
+      left: 10px;
       text-align: left;
-      letter-spacing: 1px;
+      // letter-spacing: 1px;
     }
     .arms {
-      font-size: 14px;
+      font-size: 12px;
       color: #b4b8cd;
       margin-bottom: 4px;
     }
     .skins {
       color: #fff;
-      font-size: 16px;
+      font-size: 13px;
     }
   }
 
