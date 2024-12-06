@@ -1,7 +1,6 @@
 <template>
   <div class="page ff-DIN-Bold">
     <div class="contents">
-      <!-- <PageBack /> -->
       <!-- Header Start -->
       <div class="top">
         <!-- <img class="logo" src="../../assets/logo.png" /> -->
@@ -45,8 +44,8 @@
               </div>
               <img :src="item.image" />
               <div class="infos">
-                <div class="arms">{{ item.mainName }}</div>
-                <div class="skins">{{ item.subName }}</div>
+                <div class="arms">{{ item.mainName || 'mainName' }}</div>
+                <div class="skins">{{ item.subName || 'subName' }}</div>
               </div>
             </div>
           </template>
@@ -118,7 +117,7 @@ interface BoxProps {
   allProbability: number;
   price: number;
   mainName: string;
-  skinsName: string;
+  subName: string;
   rarityColor: string;
   image: string;
 }
@@ -169,6 +168,15 @@ const route = useRoute();
 const boxId = ref(route.query.blindbox_index || 2)
 const duration = ref(route.query.duration || 5)
 
+const visibleCount = computed(() => {
+  const screenWidth = window.innerWidth;
+  if (screenWidth <= 768) {
+    return 3;
+  } else {
+    return 7;
+  }
+})
+
 // -- life circles
 onMounted(() => {
   getData();
@@ -188,7 +196,7 @@ const getStyle = (el: any, attr: string) => {
 const getBoundings = (currentRef: any) => {
   debugger
   const w = parseInt(getStyle(currentRef.value, 'width'));
-  state.itemWidth = w / 7;
+  state.itemWidth = w / visibleCount.value;
 };
 
 const getBgColor = (colorStop: string) => {
@@ -203,7 +211,7 @@ const getData = () => {
     state.luckyDrawData = LuckyDraw.getLuckyDrawDataList<BoxProps>({
       source: data.pmsBoxProductAbbrList,
       total: 70,
-      visibleCount: 7,
+      visibleCount: visibleCount.value,
     });
   }).catch((err) => {
     console.log(err);
@@ -468,6 +476,7 @@ const onOpenBox = () => {
   font-size: 14px;
   letter-spacing: 1px;
 }
+
 .start-button {
   width: 226px;
   height: 60px;
@@ -512,6 +521,44 @@ const onOpenBox = () => {
   }
   &:nth-child(2) {
     margin: 0 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .contents {
+    width: 100%;
+    min-width: auto;
+    max-width: auto;
+    padding: 20px 0;
+  }
+  .top .title {
+    font-size: 16px;
+  }
+  .lucky-draw {
+    height: 80px;
+  }
+  .lucky-draw-item {
+    padding: 2px 5px;
+    img {
+      width: 35%;
+    }
+    .chance {
+      font-size: 10px;
+    }
+    .infos {
+      .arms {
+        font-size: 10px;
+      }
+      .skins {
+        font-size: 11px;
+      }
+    }
+  }
+  .start-button, .action-button {
+    width: 180px;
+    height: 50px;
+    line-height: 50px;
+    font-size: 14px;
   }
 }
 </style>

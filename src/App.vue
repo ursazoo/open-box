@@ -11,6 +11,11 @@
 body {
   min-width: 1450px;
 }
+@media (max-width: 768px) {
+  body {
+    min-width: auto;
+  }
+}
 
 /* 字体名称 */
 .ff-DIN-Bold {
